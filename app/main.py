@@ -45,4 +45,3 @@ def pods():
     except Exception as e:
         logger.error(f"Pods error: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch pods")
-    
