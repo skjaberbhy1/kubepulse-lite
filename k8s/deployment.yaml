@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubepulse
+  labels:
+    app: kubepulse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubepulse
+  template:
+    metadata:
+      labels:
+        app: kubepulse
+    spec:
+      serviceAccountName: kubepulse-sa
+
+      containers:
+      - name: kubepulse
+        image: your-dockerhub/kubepulse-lite:1.0
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8000
+
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
