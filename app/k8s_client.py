@@ -49,4 +49,3 @@ def get_pods():
     except Exception as e:
         logger.error(f"Error fetching pods: {e}")
         return []
-  
