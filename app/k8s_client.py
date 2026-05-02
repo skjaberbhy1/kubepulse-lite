@@ -3,13 +3,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 # Load kube config safely
 try:
     config.load_incluster_config()
 except Exception:
     config.load_kube_config()
-
 
 v1 = client.CoreV1Api()
 
