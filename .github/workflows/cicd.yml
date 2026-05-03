@@ -89,28 +89,22 @@ jobs:
 
     - name: Docker Login
       run: |
-        echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+       echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
     - name: Build Image
       run: |
-        docker build -t ${{ secrets.DOCKER_USER }}/kubepulse-lite:${{ github.sha }} .
+       docker build -t ${{ secrets.DOCKER_USER }}/kubepulse-lite:${{ github.sha }} .
 
     - name: Push Image
       run: |
-        docker push ${{ secrets.DOCKER_USER }}/kubepulse-lite:${{ github.sha }}
+       docker push ${{ secrets.DOCKER_USER }}/kubepulse-lite:${{ github.sha }}
 
     - name: Setup kubeconfig
       run: |
        mkdir -p $HOME/.kube
-       echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > $HOME/.kube/config
+       printf '%s' '${{ secrets.KUBECONFIG_BASE64 }}' | base64 -d > $HOME/.kube/config
 
-       - name: Deploy to staging (Kubernetes)
-        run: |
-         kubectl config view
-         kubectl get nodes
-
-       kubectl set image deployment/kubepulse \
-       kubepulse=${{ secrets.DOCKER_USER }}/kubepulse-lite:${{ github.sha }} \
-       -n production
-
-       kubectl rollout status deployment/kubepulse -n production
+    - name: Verify kubeconfig
+      run: |
+       kubectl config view
+       kubectl get ns
