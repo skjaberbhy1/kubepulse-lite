@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kubepulse
+  namespace: production
   labels:
     app: kubepulse
 spec:
@@ -18,8 +19,8 @@ spec:
 
       containers:
       - name: kubepulse
-        image: your-dockerhub/kubepulse-lite:1.0
-        imagePullPolicy: Always
+        image: /skjaberbhy/kubepulse-lite:${TAG}
+        imagePullPolicy: IfNotPresent
 
         ports:
         - containerPort: 8000
