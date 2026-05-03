@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from app.k8s_client import get_nodes, get_pods
+from k8s_client import get_nodes, get_pods
 import logging
 
 logging.basicConfig(level=logging.INFO)
