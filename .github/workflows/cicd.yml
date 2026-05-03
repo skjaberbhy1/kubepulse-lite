@@ -108,3 +108,13 @@ jobs:
       run: |
        kubectl config view
        kubectl get ns
+       
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/
+
+        kubectl set image deployment/kubepulse \
+        kubepulse=${{ secrets.DOCKER_USER }}/kubepulse-lite:${{ github.sha }} \
+        -n production
+
+        kubectl rollout status deployment/kubepulse -n production

@@ -1,26 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: kubepulse
   namespace: production
   labels:
     app: kubepulse
+
 spec:
   replicas: 2
+
   selector:
     matchLabels:
       app: kubepulse
+
   template:
     metadata:
       labels:
         app: kubepulse
-    spec:
-      serviceAccountName: kubepulse-sa
 
+    spec:
       containers:
       - name: kubepulse
-        image: /skjaberbhy/kubepulse-lite:${TAG}
-        imagePullPolicy: IfNotPresent
+        image: skjaberbhy/kubepulse-lite:latest
+        imagePullPolicy: Always
 
         ports:
         - containerPort: 8000
@@ -29,6 +32,7 @@ spec:
           requests:
             memory: "128Mi"
             cpu: "100m"
+
           limits:
             memory: "256Mi"
             cpu: "200m"
